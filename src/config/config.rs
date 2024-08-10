@@ -1,17 +1,18 @@
-use std::{fmt::format, fs, io::Write};
+use std::{fs, io::Write};
 
 use crate::fs::File;
 use serde::{Deserialize, Serialize};
 use toml;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct Config {
-    notes_home: String,
+    pub notes_home: String,
 }
 
-pub fn create_config_file(path: String) -> Option<File> {
+pub fn create_config_file(path: &String) -> Option<File> {
+    // TODO: add multi OS support
     let default_config = Config {
-        notes_home: path.to_string()
+        notes_home: format!("/home/{}/Documents/devnotes/", whoami::username()).to_string()
     };
 
     let config_directory = format!("/home/{}/.config/devnotes", whoami::username());
@@ -34,8 +35,8 @@ pub fn create_config_file(path: String) -> Option<File> {
     }
 }
 
-pub fn read_config_file(config_contents: String) {
+pub fn read_config_file(config_contents: String) -> Config {
     let config: Config = toml::from_str(&config_contents).unwrap();
 
-    println!("Config notes home: {}", config.notes_home);
+    return config;
 }
