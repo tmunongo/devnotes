@@ -1,6 +1,7 @@
 use std::{env, fs::{self, File}, os};
 
 use crate::AppState;
+use crate::helpers::sanitize_file_name;
 
 pub fn handle_new_note(app_state: AppState, mut path: String) {
     // check that the supplied path is a valid file name
@@ -25,20 +26,4 @@ pub fn handle_new_note(app_state: AppState, mut path: String) {
     let editor = env::var("EDITOR").unwrap_or_else(|_| "nvim".to_string());
     open::with(&new_note_path, &editor)
         .expect("Could not open this note");
-}
-
-pub fn sanitize_file_name(path: &String) -> String {
-    path.replace("/", "_")
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    
-    #[test]
-    fn test_sanitize_file_name() {
-        let path = "some/file/name".to_string();
-
-        assert_eq!("some_file_name".to_string(), sanitize_file_name(&path));
-    }
 }

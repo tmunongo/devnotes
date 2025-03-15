@@ -1,8 +1,8 @@
 use std::fs;
 use clap::{Parser, Subcommand};
-use color_eyre::eyre::eyre;
 use config::config::{create_config_file, read_config_file, Config};
 use handlers::new_handler::handle_new_note;
+use handlers::log_handler::handle_log;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -23,6 +23,9 @@ enum Commands {
     Edit {
         key: String,
         value: String,
+    },
+    Log {
+        value: Option<String>,
     }
 }
 
@@ -33,6 +36,7 @@ pub struct AppState {
 
 mod config;
 mod handlers;
+mod helpers;
 
 fn main() {
     let config_contents = init();
@@ -69,7 +73,10 @@ fn run_app(app_state: AppState) {
         Commands::New{value} => {
             handle_new_note(app_state, value)
         },
-        Commands::View{key, value} => todo!(),
-        Commands::Edit{key, value} => todo!(),
+        Commands::Log{value} => {
+            handle_log(app_state, value)
+        },
+        Commands::View{key :_, value: _} => todo!(),
+        Commands::Edit{key: _, value: _} => todo!(),
     }
 }
