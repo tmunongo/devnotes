@@ -1,4 +1,4 @@
-use std::{env, fs::{self, File}, os};
+use std::{env, fs::{self, File}};
 
 use crate::AppState;
 use crate::helpers::sanitize_file_name;

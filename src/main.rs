@@ -3,6 +3,7 @@ use clap::{Parser, Subcommand};
 use config::config::{create_config_file, read_config_file, Config};
 use handlers::new_handler::handle_new_note;
 use handlers::log_handler::handle_log;
+use handlers::sync_handler::handle_sync;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -26,7 +27,10 @@ enum Commands {
     },
     Log {
         value: Option<String>,
-    }
+    },
+    Sync {
+        value: Option<String>,
+    },
 }
 
 #[derive(Debug)]
@@ -78,5 +82,8 @@ fn run_app(app_state: AppState) {
         },
         Commands::View{key :_, value: _} => todo!(),
         Commands::Edit{key: _, value: _} => todo!(),
+        Commands::Sync{value} => {
+            handle_sync(app_state, value)
+        }
     }
 }
