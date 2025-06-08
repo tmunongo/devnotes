@@ -23,7 +23,7 @@ pub fn handle_log(app_state: AppState, date: Option<String>) {
             }
 
             if !fs::exists(month_path.clone()).unwrap() {
-                std::fs::create_dir_all(&year_path).unwrap();
+                std::fs::create_dir_all(&month_path).unwrap();
             }
 
             let editor = std::env::var("EDITOR").unwrap_or_else(|_| "nano".to_string()); // Fallback to nano if EDITOR is not set
