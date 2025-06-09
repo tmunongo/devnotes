@@ -6,6 +6,10 @@ pub fn handle_log(app_state: AppState, date: Option<String>) {
     match date {
         Some(date) => {
             // TODO: check that date has format YYYY-MM-DD
+            if let Err(_) = chrono::NaiveDate::parse_from_str(&date, "%Y-%m-%d") {
+                eprintln!("Invalid date format. Please use YYYY-MM-DD.");
+                return;
+            }
 
             let parts = date.split('-').collect::<Vec<&str>>();
 
@@ -26,7 +30,7 @@ pub fn handle_log(app_state: AppState, date: Option<String>) {
                 std::fs::create_dir_all(&month_path).unwrap();
             }
 
-            let editor = std::env::var("EDITOR").unwrap_or_else(|_| "nano".to_string()); // Fallback to nano if EDITOR is not set
+            let editor = app_state.config.editor.clone().unwrap_or_else(|| "nano".to_string());
 
             let mut command = Command::new(editor);
             command.arg(log_file);
@@ -45,11 +49,11 @@ pub fn handle_log(app_state: AppState, date: Option<String>) {
     }
 }
 
-fn location_check(date: String) -> Result<(), bool> {
+fn location_check(_date: String) -> Result<(), bool> {
     todo!()
 }
 
-fn create_subdirectories_for_date(date: String) {
+fn create_subdirectories_for_date(_date: String) {
     todo!()
 }
 
