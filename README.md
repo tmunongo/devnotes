@@ -2,7 +2,7 @@ I'm building a CLI-based notes app for my developer logs. Wish me luck
 
 ```shell
 # commands
-devnotes init (TODO)
+devnotes init
 
 devnotes log <date (optional)>
 
